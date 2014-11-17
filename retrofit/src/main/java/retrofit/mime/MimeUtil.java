@@ -18,19 +18,20 @@ package retrofit.mime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit.Config;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
 public final class MimeUtil {
   private static final Pattern CHARSET = Pattern.compile("\\Wcharset=([^\\s;]+)", CASE_INSENSITIVE);
 
   /**
-   * Parse the MIME type from a {@code Content-Type} header value or default to "UTF-8".
+   * Parse the MIME type from a {@code Content-Type} header value or default to "GBK".
    *
    * @deprecated Use {@link #parseCharset(String, String)}.
    */
   @Deprecated
   public static String parseCharset(String mimeType) {
-    return parseCharset(mimeType, "UTF-8");
+    return parseCharset(mimeType, Config.getCharset());
   }
 
   /** Parse the MIME type from a {@code Content-Type} header value. */

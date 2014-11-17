@@ -17,25 +17,28 @@ package retrofit.mime;
 
 import java.io.UnsupportedEncodingException;
 
+import retrofit.Config;
+
 public class TypedString extends TypedByteArray {
 
-  public TypedString(String string) {
-    super("text/plain; charset=UTF-8", convertToBytes(string));
-  }
+	public TypedString(String string) {
+		super("text/plain; charset=" + Config.getCharset(), convertToBytes(string));
+	}
 
-  private static byte[] convertToBytes(String string) {
-    try {
-      return string.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-  }
+	private static byte[] convertToBytes(String string) {
+		try {
+			return string.getBytes(Config.getCharset());
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-  @Override public String toString() {
-    try {
-      return "TypedString[" + new String(getBytes(), "UTF-8") + "]";
-    } catch (UnsupportedEncodingException e) {
-      throw new AssertionError("Must be able to decode UTF-8");
-    }
-  }
+	@Override
+	public String toString() {
+		try {
+			return "TypedString[" + new String(getBytes(), Config.getCharset()) + "]";
+		} catch (UnsupportedEncodingException e) {
+			throw new AssertionError("Must be able to decode " + Config.getCharset());
+		}
+	}
 }

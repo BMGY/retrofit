@@ -24,6 +24,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import retrofit.Config;
+
 public final class MultipartTypedOutput implements TypedOutput {
   public static final String DEFAULT_TRANSFER_ENCODING = "binary";
 
@@ -160,7 +162,7 @@ public final class MultipartTypedOutput implements TypedOutput {
         sb.append("--");
       }
       sb.append("\r\n");
-      return sb.toString().getBytes("UTF-8");
+      return sb.toString().getBytes(Config.getCharset());
     } catch (IOException ex) {
       throw new RuntimeException("Unable to write multipart boundary", ex);
     }
@@ -192,7 +194,7 @@ public final class MultipartTypedOutput implements TypedOutput {
       headers.append(transferEncoding);
       headers.append("\r\n\r\n");
 
-      return headers.toString().getBytes("UTF-8");
+      return headers.toString().getBytes(Config.getCharset());
     } catch (IOException ex) {
       throw new RuntimeException("Unable to write multipart header", ex);
     }

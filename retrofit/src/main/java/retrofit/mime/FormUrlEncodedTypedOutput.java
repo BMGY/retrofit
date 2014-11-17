@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 
+import retrofit.Config;
+
 public final class FormUrlEncodedTypedOutput implements TypedOutput {
   final ByteArrayOutputStream content = new ByteArrayOutputStream();
 
@@ -34,12 +36,12 @@ public final class FormUrlEncodedTypedOutput implements TypedOutput {
       content.write('&');
     }
     try {
-      name = URLEncoder.encode(name, "UTF-8");
-      value = URLEncoder.encode(value, "UTF-8");
+      name = URLEncoder.encode(name, Config.getCharset());
+      value = URLEncoder.encode(value, Config.getCharset());
 
-      content.write(name.getBytes("UTF-8"));
+      content.write(name.getBytes(Config.getCharset()));
       content.write('=');
-      content.write(value.getBytes("UTF-8"));
+      content.write(value.getBytes(Config.getCharset()));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -50,7 +52,7 @@ public final class FormUrlEncodedTypedOutput implements TypedOutput {
   }
 
   @Override public String mimeType() {
-    return "application/x-www-form-urlencoded; charset=UTF-8";
+    return "application/x-www-form-urlencoded; charset="+Config.getCharset();
   }
 
   @Override public long length() {
